@@ -1,0 +1,19 @@
+{
+  "name": "nodejstut",
+  "version": "1.0.0",
+  "description": "https://www.youtube.com/watch?v=0X_uTNhSxaM&index=1&list=PLZm85UZQLd2Q946FgnllFFMa0mfQLrYDL",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Claire Condon",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "latest",
+    "express": "^4.15.2",
+    "morgan": "^1.8.1",
+    "cookie-parser": "latest",
+    "express-session": "latest",
+    "mongoose": "latest"
+  }
+}
