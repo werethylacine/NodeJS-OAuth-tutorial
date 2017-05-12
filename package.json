@@ -9,6 +9,7 @@
   "author": "Claire Condon",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^1.0.2",
     "body-parser": "latest",
     "connect-flash": "^0.1.1",
     "cookie-parser": "latest",
@@ -18,6 +19,7 @@
     "mongoose": "latest",
     "morgan": "^1.8.1",
     "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0"
   }
 }
