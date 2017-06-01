@@ -29,15 +29,23 @@ module.exports = function(app, passport) {
     res.render('profile.ejs', { user: req.user });
   });
 
-  app.get('/logout', function(req, res){
-    req.logout();
-    res.redirect('/');
-  })
-
   app.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email']}));
 
-  app.get('/auth/facebook/callback', passport.authenticate('facebook', {successRedirect: '/profile', failureRedirect: '/'}));
+  app.get('/auth/facebook/callback',
+      passport.authenticate('facebook', {successRedirect: '/profile',
+                                        failureRedirect: '/'}));
 
+
+  app.get('/auth/google', passport.authenticate('google', {scope: ['email', 'profile']}));
+
+ app.get('/auth/google/callback',
+      passport.authenticate('google', {successRedirect: '/profile',
+                                        failureRedirect: '/'}));
+
+  app.get('/logout', function(req, res){
+                  req.logout();
+                  res.redirect('/');
+  })
 };
 
 function isLoggedIn(req, res, next){
