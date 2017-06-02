@@ -5,6 +5,7 @@ var port = process.env.PORT || 8080;
 var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var passport = require('passport');
@@ -21,7 +22,11 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({ secret: 'anystringoftext',
                        saveUninitialized: true,
-                       resave: true }));
+                       resave: true,
+                       //if server goes down momentarily, users remain logged-in
+                       store: new MongoStore({ mongooseConnection: mongoose.connection,
+                                               ttl: 24 * 60 * 60 //stays open 24 hours (in seconds)
+                                             })}));
 
 app.use(passport.initialize());
 app.use(passport.session());

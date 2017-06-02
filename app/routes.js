@@ -38,9 +38,61 @@ module.exports = function(app, passport) {
 
   app.get('/auth/google', passport.authenticate('google', {scope: ['email', 'profile']}));
 
- app.get('/auth/google/callback',
+  app.get('/auth/google/callback',
       passport.authenticate('google', {successRedirect: '/profile',
                                         failureRedirect: '/'}));
+
+  app.get('/connect/facebook', passport.authorize('facebook', {scope: ['email']}));
+  app.get('/unlink/facebook', function(req, res){
+    var user = req.user;
+    user.facebook.token = null;
+    user.save(function(err){
+      if (err){
+        throw err;
+      }
+      else {
+        res.redirect('/profile');
+      }
+    });
+  });
+
+  app.get('/connect/google', passport.authorize('google', {scope: ['profile', 'email']}));
+  app.get('/unlink/google', function(req, res){
+    var user = req.user;
+    user.google.token = null;
+    user.save(function(err){
+      if(err){
+        throw err;
+      }
+      else {
+        res.redirect('/profile');
+      }
+    });
+  });
+
+  app.get('/connect/local', function(req, res){
+    res.render('connect-local.ejs', { message: req.flash('signupMessage')});
+  });
+  app.get('/unlink/local', function(req, res){
+    var user = req.user;
+    user.local.username = null;
+    user.local.password = null;
+
+    user.save(function(err){
+      if(err){
+        throw err
+      }
+      else {
+        res.redirect('/profile');
+      }
+    });
+  });
+
+  app.post('/connect/local', passport.authenticate('local-signup', {
+    successRedirect: '/profile',
+    failureRedirect: '/connect/local',
+    failureFlash: true
+  }))
 
   app.get('/logout', function(req, res){
                   req.logout();
